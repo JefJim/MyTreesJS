@@ -1,8 +1,12 @@
 const express = require("express");
-const userRoutes = require('./routes/userRoutes');
 const cors = require('cors');
+
+const adminRoutes = require('./routes/adminRoutes');
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+
 const bodyParser = require('body-parser');
-const path = require("path"); // Necesario para manejar rutas
+const path = require("path"); // Neccesary for handling paths
 
 
 const app = express();
@@ -16,16 +20,26 @@ app.use(express.json()); // Para manejar JSON en requests
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/views")));
 
-// Rutas de la API
-app.use('/api', userRoutes);  // La ruta /api es donde llamamos para obtener los países
+app.use(session({
+    secret: "clave_secreta",
+    resave: false,
+    saveUninitialized: true
+}));
 
-// Definir la ruta base para usuarios
+// protected routes
+app.use("/admin", adminRoutes);
+app.use("/users", userRoutes);
+
+// API routes
+app.use('/api', userRoutes);  // Route api to userRoutes and get countries
+
+// base route for users
 app.use("/api/users", userRoutes);
 
-// Rutas de autenticación
-app.use('/api/auth', userRoutes);
+// auth routes
+app.use('/api/auth', authRoutes);
 
-// Definir otras rutas y el servidor
+// server routes
 app.listen(port, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
 });

@@ -1,14 +1,14 @@
 const mysql = require("mysql2");
 
-// Configuración de la conexión a la base de datos
+// Config connection to MySQL
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", // Deja vacío si no configuraste una contraseña
+    password: "", // Change this to your MySQL password
     database: "mytreesjs",
 });
 
-// Conectar a MySQL
+// Connect to MySQL
 db.connect((err) => {
     if (err) {
         console.error("❌ Error de conexión a la base de datos:", err);

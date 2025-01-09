@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("signupForm").addEventListener("submit", async function (event) {
-        event.preventDefault(); // Evita el envío tradicional del formulario
+        event.preventDefault(); // Prevent form to reload page 
         var select = document.getElementById("country").selectedIndex;
         const formData = new FormData(this);
         const userData = {
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 alert(result.message);
-                window.location.href = "../login.html"; // Redirigir a la página de login (opcional)
+                window.location.href = "../login.html"; // after register, redirect to login
             } else {
                 document.getElementById("errorMessage").innerHTML = result.message;
             }
@@ -40,18 +40,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-// loadCountries.js
 
-// Función para cargar los países en un combobox específico
+// Function to load countries into a select element
 function loadCountries(selectId) {
-    fetch('/api/users/countries')  // Llamar a la ruta API /countries
-        .then(response => response.json())  // Convertir la respuesta a formato JSON
+    fetch('/api/users/countries')  // call the API to get the countries
+        .then(response => response.json())  // convert the response to JSON
         .then(data => {
-            const countrySelect = document.getElementById(selectId);  // Usar el ID del select que pasamos como argumento
-            // Limpiar el combobox antes de cargar los nuevos países
+            const countrySelect = document.getElementById(selectId);  // use the parameter to get the select element
+            // clean the select element
             countrySelect.innerHTML = '<option value="">Seleccione un país</option>';
             
-            // Agregar cada país al combobox
+            // add each country as an option in the select element
             data.forEach(country => {
                 const option = document.createElement('option');
                 option.value = country.id;  // El valor será el ID del país
@@ -62,7 +61,7 @@ function loadCountries(selectId) {
         .catch(error => console.error('Error al cargar los países:', error));
 }
 
-// Exportar la función para usarla en otros archivos
+// export the function to be used in other files
 export { loadCountries };
 
 

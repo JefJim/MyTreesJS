@@ -2,9 +2,7 @@ const db = require("../config/db");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.js");
 
-// Controlador para registrar usuarios
-
-// Controlador para registrar usuarios
+// Controller to register a new user
 exports.registerUser = (req, res) => {
     const { firstname, lastname, phone, email, address, country, password } = req.body;
 
@@ -12,7 +10,7 @@ exports.registerUser = (req, res) => {
         return res.status(400).json({ success: false, message: "Todos los campos son obligatorios" });
     }
 
-    // Buscar si el usuario ya existe
+    // Find if the user already exists
     User.findOne(email, (err, existingUser) => {
         if (err) {
             console.error("Error al buscar usuario:", err);
@@ -23,14 +21,14 @@ exports.registerUser = (req, res) => {
             return res.status(400).json({ success: false, message: "El correo ya está registrado" });
         }
 
-        // Hashear la contraseña antes de guardarla
+        // Hashear password
         bcrypt.hash(password, 10, (err, hashedPassword) => {
             if (err) {
                 console.error("Error al encriptar contraseña:", err);
                 return res.status(500).json({ success: false, message: "Error en el servidor" });
             }
 
-            // Crear el usuario
+            // Create the new user
             User.create({ firstname, lastname, phone, email, address, country, password: hashedPassword }, (err, result) => {
                 if (err) {
                     console.error("Error al crear usuario:", err);
@@ -42,7 +40,7 @@ exports.registerUser = (req, res) => {
         });
     });
 };
-// Obtener la lista de países desde la base de datos
+// Controller to get all countries
 exports.getCountries = (req, res) => {
     db.query("SELECT * FROM countries", (err, results) => {
         if (err) {

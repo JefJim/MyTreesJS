@@ -1,13 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
-const authController = require("../controllers/authController");
+ const authMiddleware = require("../public/js/auth");
 
-// Ruta para registrar usuario
+// Only client users can access this route
+router.get("/users", authMiddleware(0), (req, res) => {
+    res.sendFile(__dirname + "/users.html");
+});
+// Route to register a new user
 router.post("/register", userController.registerUser);
-// Ruta para obtener la lista de países
+// Route to get all countries
 router.get("/countries", userController.getCountries);  
-// Ruta para iniciar sesión
-router.post("/login", authController.authenticate);
+
 
 module.exports = router;

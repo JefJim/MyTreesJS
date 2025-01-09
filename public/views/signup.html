@@ -10,7 +10,6 @@
 </head>   
 
 <body>
-  <!-- En index.html o signup.html -->
   <div class="flex items-center justify-center min-h-screen bg-green-100 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
       <h1 class="text-2xl font-bold text-center text-green-900">Signup</h1>
@@ -71,7 +70,7 @@
             class="mt-1 block w-full px-3 py-2 rounded-md border-0 shadow-sm ring-1 ring-inset ring-green-300 focus:ring-2 focus:ring-green-600 sm:text-sm"
             type="password" name="password" minlength="3" required>
         </div>
-        <p id="errorMessage"></p> <!-- Mensajes de error -->
+        <p id="errorMessage"></p> <!-- Error message -->
         <!-- Submit Button -->
         <div class="flex justify-center">
           <button type="submit"
@@ -83,17 +82,17 @@
       </form>
     </div>
   </div>
-  <iframe src="footer.html" style="width:100%; height:100px;"></iframe>
+  
+  <iframe src="footer.html" style="width:100%; height:100px;"></iframe>  <!-- Insert Footer -->
   <script type="module">
-    // Importar la función que carga los países
+    // Import functions that load countries 
     import { loadCountries } from '../js/functions.js';
     
-    // Cargar los países al cargar la página
+    // Load countries with the page 
     document.addEventListener('DOMContentLoaded', () => {
-        loadCountries('country');  // Llamamos a la función pasando el ID del select
+        loadCountries('country');  // Call function sendind ID to select 
     });
 </script>
-  <!-- En index.html o signup.html -->
 
 
 </body>
