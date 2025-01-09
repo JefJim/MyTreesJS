@@ -17,7 +17,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
         // redirects according to role
         if (data.user.isAdmin == 1) {
-            window.location.href = '/admin.html';
+            window.location.href = '/adminDashboard.html';
         } else {
             window.location.href = '/users.html';
         }

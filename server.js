@@ -20,12 +20,6 @@ app.use(express.json()); // Para manejar JSON en requests
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/views")));
 
-app.use(session({
-    secret: "clave_secreta",
-    resave: false,
-    saveUninitialized: true
-}));
-
 // protected routes
 app.use("/admin", adminRoutes);
 app.use("/users", userRoutes);
@@ -35,9 +29,12 @@ app.use('/api', userRoutes);  // Route api to userRoutes and get countries
 
 // base route for users
 app.use("/api/users", userRoutes);
+app.use("/api/stats", adminRoutes);
 
 // auth routes
 app.use('/api/auth', authRoutes);
+
+
 
 // server routes
 app.listen(port, () => {

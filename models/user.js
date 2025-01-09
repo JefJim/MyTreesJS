@@ -15,7 +15,7 @@ const User = {
     create: (userData, callback) => {
         const sql = "INSERT INTO user (firstname, lastname, phone, email, address, country_id, rol_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         db.query(sql, 
-            [userData.firstname, userData.lastname, userData.phone, userData.email, userData.address, userData.country, 1, userData.password], 
+            [userData.firstname, userData.lastname, userData.phone, userData.email, userData.address, userData.country, 2, userData.password], //rol_id 2 = user
             (err, results) => {
                 if (err) {
                     console.error("Error al crear usuario:", err);
