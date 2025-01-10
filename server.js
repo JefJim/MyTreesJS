@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public/views")));
 // protected routes
 app.use("/admin", adminRoutes);
 app.use("/users", userRoutes);
+app.use("/species", adminRoutes);
 
 // API routes
 app.use('/api', userRoutes);  // Route api to userRoutes and get countries
@@ -33,7 +34,6 @@ app.use("/api/stats", adminRoutes);
 
 // auth routes
 app.use('/api/auth', authRoutes);
-
 
 
 // server routes

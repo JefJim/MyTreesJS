@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lista de Especies</title>
+</head>
+<body class="h-full bg-green-100">
+    <div class="max-h-full">
+        <div class="flex justify-between items-center bg-green-900 p-4 text-white">
+            <h1 class="text-xl font-bold">Lista de Especies</h1>
+            <a href="speciesForm.html" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm">Agregar Especie</a>
+            <a href="adminDashboard.html" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm text-white">Atrás</a>
+        </div>
+        <div class="relative overflow-x-auto mx-auto mt-4 max-w-5xl bg-white p-4 rounded-lg shadow-lg">
+            <table class="w-full text-sm text-left text-green-900">
+                <thead class="text-xs text-green-700 uppercase bg-green-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">ID</th>
+                        <th scope="col" class="px-6 py-3">Nombre Comercial</th>
+                        <th scope="col" class="px-6 py-3">Nombre Científico</th>
+                        <th scope="col" class="px-6 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="speciesTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../js/species.js" > document.addEventListener("DOMContentLoaded", loadSpecies);</script>
+</body>
+</html>
