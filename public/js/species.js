@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function fetchSpecies() {
         try {
-            const response = await fetch("species/list");
+            const response = await fetch("/admin/species/list");
             const speciesList = await response.json();
             speciesTableBody.innerHTML = speciesList.map(species => `
                 <tr class="bg-white border-b hover:bg-green-50">
