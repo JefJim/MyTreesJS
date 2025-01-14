@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-green-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Formulario de Usuario</title>
+</head>
+
+<body class="h-full">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="max-w-lg w-full bg-white p-6 rounded-lg shadow-lg">
+            <h1 id="formTitle" class="text-2xl font-bold text-green-900 text-center mb-4">Agregar Usuario</h1>
+
+            <form id="adminUserForm" class="space-y-4">
+                <input type="hidden" id="userId">
+
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-green-900">Nombre:</label>
+                    <input type="text" id="nombre" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md border border-green-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label for="apellido" class="block text-sm font-medium text-green-900">Apellido:</label>
+                    <input type="text" id="apellido" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md border border-green-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label for="telefono" class="block text-sm font-medium text-green-900">Teléfono:</label>
+                    <input type="text" id="telefono"
+                        class="mt-1 block w-full px-3 py-2 rounded-md border border-green-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-green-900">Email:</label>
+                    <input type="email" id="email" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md border border-green-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label for="direccion" class="block text-sm font-medium text-green-900">Dirección:</label>
+                    <textarea id="direccion" rows="3"
+                        class="mt-1 block w-full px-3 py-2 rounded-md border border-green-300 shadow-sm"></textarea>
+                </div>
+
+                <div>
+                    <label for="country" class="block text-sm font-medium text-green-900">Country</label>
+                    <select id="country" name="country"
+                        class="mt-1 block w-full px-3 py-2 rounded-md border-0 shadow-sm ring-1 ring-inset ring-green-300 focus:ring-2 focus:ring-green-600 sm:text-sm"
+                        required>
+                        <option value="">Seleccione un país</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="contrasena" class="block text-sm font-medium text-green-900">Contraseña:</label>
+                    <input type="password" id="contrasena"
+                        class="mt-1 block w-full px-3 py-2 rounded-md border border-green-300 shadow-sm">
+                </div>
+
+                <div>
+                    <label for="rol" class="block text-sm font-medium text-green-900">Rol:</label>
+                    <select id="rol" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md border border-green-300 shadow-sm">
+                        <option value="1">Cliente</option>
+                        <option value="2">Administrador</option>
+                        <option value="3">Operador</option>
+                    </select>
+                </div>
+                <p id="errorMessage"></p> <!-- Error message -->
+
+                <div class="flex justify-between items-align bg-green-900 p-3 text-white">
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-white text-sm"
+                        id="submitButton">
+                        Guardar
+                    </button>
+                    <a href="adminUserView.html"
+                        class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm text-white">
+                        Atrás
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../js/adminUserForm.js"></script>
+</body>
+
+</html>

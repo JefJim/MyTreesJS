@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-green-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lista de Administradores y Operadores</title>
+</head>
+
+<body class="h-full">
+    <div class="min-h-full">
+        <!-- Barra de Navegación -->
+        <div id="header-container"></div>
+
+        <!-- Contenido -->
+        <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-green-900">Lista de Administradores y Operadores</h1>
+                <a href="adminUserForm.html"
+                    class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-white text-sm">
+                    Agregar Usuario
+                </a>
+                <a href="adminDashboard.html" type="submit"
+                    class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm text-white">
+                    Atrás
+                </a>
+            </div>
+
+            <div class="relative overflow-x-auto bg-white p-6 rounded-lg shadow-lg">
+                <table class="w-full text-sm text-left text-green-900">
+                    <thead class="text-xs text-green-700 uppercase bg-green-50">
+                        <tr>
+                            <td class="px-6 py-3">ID</td>
+                            <td class="px-6 py-3">Nombre</td>
+                            <td class="px-6 py-3">Apellido</td>
+                            <td class="px-6 py-3">Email</td>
+                            <td class="px-6 py-3">Rol</td>
+                            <td class="px-6 py-3">Acciones</td>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="../js/adminUser.js"></script>
+    <script>
+        // Load the header
+        fetch("adminNave.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            })
+            .catch(error => console.error("Error cargando el header:", error));
+    </script>
+</body>
+
+</html>
