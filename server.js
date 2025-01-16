@@ -19,6 +19,9 @@ app.use(express.json()); // Para manejar JSON en requests
 // Servir archivos estáticos desde la carpeta 'public'
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/views")));
+app.use(express.static(path.join(__dirname, "public/views/admin")));
+app.use(express.static(path.join(__dirname, "public/views/general")));
+
 
 // protected routes
 app.use("/admin", adminRoutes);
