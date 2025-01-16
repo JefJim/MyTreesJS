@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Treereg = require("../models/treereg");
+const bcrypt = require("bcryptjs");
 
 // Obtener todos los usuarios
 exports.getStatsAdminDashboard = async (req, res) => {
@@ -37,26 +38,6 @@ exports.getStatsAdminDashboard = async (req, res) => {
         });
     }
 };
-exports.checkEmail = async (req, res) => {
-    try {
-        const { email } = req.query; // Obtener el email desde los query parameters
-        console.log("Email recibido:", email);
-
-        // Buscar un usuario con ese email en la base de datos
-        const existingUser = await User.findOne({ where: { email } });
-
-        if (existingUser) {
-            console.log("El correo ya está registrado");
-            return res.json({ exists: true });
-        } else {
-            console.log("El correo no está registrado");
-            return res.json({ exists: false });
-        }
-    } catch (error) {
-        console.error("Error al buscar usuario:", error);
-        return res.status(500).json({ success: false, message: "Error en el servidor" });
-    }
-};
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -79,27 +60,45 @@ exports.getUserById = async (req, res) => {
     }
 };
 
-// Crear usuario (cliente)
-exports.createUser = async (req, res) => {
-    try {
-        const newUser = await User.create(req.body);
-        res.status(201).json(newUser);
-    } catch (error) {
-        res.status(500).json({ message: "Error al crear usuario", error });
-    }
-};
 
-// Crear usuario por administrador
 exports.createUserByAdmin = async (req, res) => {
+    const { firstname, lastname, phone, email, address, country_id, rol_id, password } = req.body;
+
+    // Validate all info is complete
+    if (!firstname || !lastname || !phone || !email || !address || !country_id || !rol_id || !password) {
+        return res.status(400).json({ success: false, message: "Todos los campos son obligatorios" });
+    }
+
     try {
-        const newUser = await User.create(req.body);
-        res.status(201).json(newUser);
-    } catch (error) {
-        res.status(500).json({ message: "Error al crear usuario por admin", error });
+        // Verify if email already exists
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: "El correo ya está registrado" });
+        }
+
+        // hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create new user
+        await User.create({ 
+            firstname, 
+            lastname, 
+            email, 
+            phone, 
+            address, 
+            country_id: parseInt(country_id),
+            rol_id: parseInt(rol_id),
+            password: hashedPassword 
+        });
+
+        return res.status(201).json({ success: true, message: "Usuario registrado con éxito" });
+    } catch (err) {
+        console.error("Error al registrar el usuario:", err);
+        return res.status(500).json({ success: false, message: "Error en el servidor" });
     }
 };
 
-// Actualizar usuario
+// update user
 exports.updateUser = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
@@ -112,7 +111,7 @@ exports.updateUser = async (req, res) => {
     }
 };
 
-// Eliminar usuario
+// delete user
 exports.deleteUser = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
@@ -124,3 +123,27 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar usuario", error });
     }
 };
+
+//get all trees
+exports.getAllTrees = async (req, res) => {
+    try {
+        const trees = await Treereg.findAll();
+        res.status(200).json(trees);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener árboles", error });
+    }
+};
+
+//delete tree
+exports.deleteTree = async (req, res) => {
+    try {
+        const tree = await Treereg.findByPk(req.params.id);
+        if (!tree) return res.status(404).json({ message: "Árbol no encontrado" });
+
+        await tree.destroy();
+        res.status(200).json({ message: "Árbol eliminado correctamente" });
+    } catch (error) {
+        res.status(500).json({ message: "Error al eliminar el árbol", error });
+    }
+};
+
