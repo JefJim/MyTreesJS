@@ -12,7 +12,7 @@ router.get("/admin", authMiddleware(1), (req, res) => {
 });
 
 // Route to get info for dash
-router.get("/stats", adminController.getDashboardStats);  
+router.get("/stats", adminController.getStatsAdminDashboard);  
 
 //routes for species
 router.put("/update/:id", speciesController.updateSpecies);
@@ -22,7 +22,7 @@ router.get("/species/list", speciesController.getAllSpecies);
 router.get("/get/:id", speciesController.getSpeciesById);  
 
 //routes for users
-router.get("/users/get/:id", adminController.getUsersById);
+router.get("/users/get/:id", adminController.getUserById);
 router.get("/users/check-email", adminController.checkEmail);
 
 router.get("/users/list", adminController.getAllUsers);
