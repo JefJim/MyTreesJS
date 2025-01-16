@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("signupForm").addEventListener("submit", async function (event) {
-        event.preventDefault(); // Prevent form to reload page 
-        var select = document.getElementById("country").selectedIndex;
+        event.preventDefault(); // Prevent form to reload page
         const formData = new FormData(this);
         const userData = {
             firstname: formData.get("firstname"),
@@ -9,9 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
             phone: formData.get("phone"),
             email: formData.get("email"),
             address: formData.get("address"),
-            country: select,
+            country: parseInt(formData.get("country")), // Get the value of the selected country
             password: formData.get("password"),
         };
+        console.log(userData);
+        
 
         if (userData.password.length < 3) {
             document.getElementById("errorMessage").innerHTML = "La contraseña debe tener más de 3 caracteres.";
