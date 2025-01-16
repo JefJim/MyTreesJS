@@ -38,7 +38,7 @@ const TreeReg = sequelize.define("treereg", {
         allowNull: true
     }
 }, {
-    timestamps: true,
+    timestamps: false,
     tableName: "treereg"
 });
 
