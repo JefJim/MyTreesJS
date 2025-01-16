@@ -26,10 +26,10 @@ const signupController = {
             await User.create({ 
                 firstname, 
                 lastname, 
-                phone, 
                 email, 
+                phone, 
                 address, 
-                country, 
+                country_id: country,                
                 password: hashedPassword 
             });
 
