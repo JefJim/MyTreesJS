@@ -41,13 +41,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (userCountryId) {   // Load the countries and select the user's country
             document.getElementById("country").value = userCountryId;
         }
-        if(userRolId == 1){
+        if (userRolId == 1) {
             document.getElementById("rol").value = "1";
         }
-        if(userRolId == 2) {
+        if (userRolId == 2) {
             document.getElementById("rol").value = "2";
         }
-        if(userRolId == 3) {
+        if (userRolId == 3) {
             document.getElementById("rol").value = "3";
         }
     }
@@ -60,10 +60,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             phone: document.getElementById("telefono").value,
             email: document.getElementById("email").value,
             address: document.getElementById("direccion").value,
-            country_id:  parseInt(document.getElementById("country").value), 
+            country_id: parseInt(document.getElementById("country").value),
+
+            rol_id: parseInt(document.getElementById("rol").value),
             password: document.getElementById("contrasena").value,
-            rol_id:  parseInt(document.getElementById("rol").value),
         };
+
         console.log("Datos enviados al servidor:", userData);
 
         if (userId) {
@@ -73,42 +75,30 @@ document.addEventListener("DOMContentLoaded", async () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData)
             })
-            .then(response => response.json())
-            .then(() => {
-                alert("Usuario actualizado correctamente");
-                window.location.href = "adminUserView.html";
-            })
-            .catch(error => console.error("Error al actualizar al usuario: ", error));
+                .then(response => response.json())
+                .then(() => {
+                    alert("Usuario actualizado correctamente");
+                    window.location.href = "adminUserView.html";
+                })
+                .catch(error => console.error("Error al actualizar al usuario: ", error));
         } else {
             // Si no hay ID, es la creación de un usuario
-            // Verificamos si el correo electrónico ya está registrado
-            fetch(`/admin/users/check-email?email=${userData.email}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    // Si el correo ya está registrado, mostramos un mensaje de error
-                    document.getElementById("errorMessage").textContent = "El correo ya está registrado.";
-                    return; // Evita enviar el formulario si el correo ya existe
-                }
-        
-                // Si el correo no existe, enviamos los datos para crear el usuario
-                fetch("admin/users/create", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(userData)
-                })
+            // Si el correo no existe, enviamos los datos para crear el usuario
+            fetch("admin/users/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userData)
+            })
                 .then(response => response.json())
                 .then(() => {
                     alert("Usuario agregado correctamente");
                     window.location.href = "adminUserView.html";
                 })
                 .catch(error => console.error("Error al agregar el usuario: ", error));
-            })
-            .catch(error => {
-                console.error("Error al verificar correo: ", error);
-            });
+
+
         }
-        
+
     });
 });
 
