@@ -1,126 +1,126 @@
-const bcrypt = require("bcryptjs");
-const Dashboard = require("../models/admin.js"); //loading stats for the dashboard
+const User = require("../models/user");
+const Treereg = require("../models/treereg");
 
-const Users = require("../models/user.js");
+// Obtener todos los usuarios
+exports.getStatsAdminDashboard = async (req, res) => {
+    try {
+        // Contar el total de usuarios
+        const totalAmigos = await User.count();
 
-const adminController = {
-    getDashboardStats: (req, res) => {
-        Dashboard.getStats((err, stats) => {
-            if (err) {
-                return res.status(500).json({ success: false, message: "Error al obtener estadísticas" });
-            }
-            res.json({ success: true, stats });
-        });
-    },
-    checkEmail: (req, res) => {
-        const { email } = req.query; // El correo viene como query parameter
-    
-        // Llamamos a la función `findOne` para buscar el correo en la base de datos
-        Users.findOne(email, (err, existingUser) => {
-            console.log(email);
-            if (err) {
-                console.error("Error al buscar usuario:", err);
-                return res.status(500).json({ success: false, message: "Error en el servidor" });
-            }
-    
-            if (existingUser) {
-                // Si el correo ya está registrado
-                console.log("El correo ya está registrado");
-                return res.json({ exists: true });
-            } else {
-                console.log("El correo no está registrado 2323");
-                // Si el correo no está registrado
-                return res.json({ exists: false });
+        // Contar el total de árboles disponibles
+        const totalArbolesDisponibles = await Treereg.count({
+            where: {
+                status: 'available'
             }
         });
-    },
-    getAllUsers: (req, res) => {
-        Users.getAll((err, results) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json(results);
-        });
-    },
 
-    getUsersById: (req, res) => {
-        const { id } = req.params;
-    
-        Users.getById(id, (err, result) => {
-            if (err) {
-                return res.status(404).json({ message: "Usuario no encontrado" });
+        // Contar el total de árboles vendidos
+        const totalArbolesVendidos = await Treereg.count({
+            where: {
+                status: 'sold'
             }
-            res.json(result);
         });
-    },
 
-    createUser: (req, res) => {
-        const { firstname, lastname, phone, email, address, country_id, password, rol_id  } = req.body;
-        if (!firstname || !lastname || !phone || !email || !address || !country_id || !rol_id || !password) {
-            return res.status(400).json({ message: "Todos los campos son requeridos" });
-        }
-        Users.findOne(email, (err, existingUser) => {
-            if (err) {
-                console.error("Error al buscar usuario:", err);
-                return res.status(500).json({ success: false, message: "Error en el servidor" });
-            }
-    
-            if (existingUser) {
-                // Si el correo existe, se responde antes de crear el usuario
-                return res.status(400).json({ success: false, message: "El correo ya está registrado" });
-            }
-    
-            // Si el correo no está registrado, entonces procedemos a encriptar la contraseña
-            bcrypt.hash(password, 10, (err, hashedPassword) => {
-                if (err) {
-                    console.error("Error al encriptar contraseña:", err);
-                    return res.status(500).json({ success: false, message: "Error en el servidor" });
-                }
-    
-                // Crea el nuevo usuario
-                Users.createByAdmin({ firstname, lastname, phone, email, address, country_id, rol_id, password: hashedPassword }, (err, result) => {
-                    if (err) {
-                        console.error("Error al crear usuario:", err);
-                        return res.status(500).json({ success: false, message: "Error en el servidor" });
-                    }
-    
-                    res.status(201).json({ success: true, message: "Usuario registrado con éxito" });
-                });
-            });
+        // Retornar los resultados como un objeto
+        return res.status(200).json({
+            success: true,
+            totalAmigos,
+            totalArbolesDisponibles,
+            totalArbolesVendidos
         });
-    },
-    updateUser: (req, res) => {
-        const { id } = req.params;
-        const { firstname, lastname, phone, email, address, country_id, password, rol_id } = req.body;
-        if (!firstname || !lastname || !phone || !email || !address || !country_id || !rol_id || !password) {
-            return res.status(400).json({ message: "Todos los campos son requeridos" });
-        }
-        bcrypt.hash(password, 10, (err, hashedPassword) => {
-           
-            if (err) {
-                console.error("Error al encriptar contraseña:", err);
-                return res.status(500).json({ success: false, message: "Error en el servidor" });
-            }
-            // Create the new user
-            Users.update(id, { firstname, lastname, phone, email, address, country_id, password: hashedPassword, rol_id }, (err, result) => {
-                if (err) {
-                    console.error("Error al actualizar al usuario:", err);
-                    return res.status(500).json({ success: false, message: "Error en el servidor" });
-                }
-
-                res.status(201).json({ success: true, message: "Usuario actualizado con éxito" });
-            });
-        });
-    },
-
-    deleteUser: (req, res) => {
-        const { id } = req.params;
-    
-        Users.delete(id, (err, result) => {
-            if (err) {
-                return res.status(404).json({ message: err.message || "Error al eliminar al usuario" });
-            }
-            return res.json(result);
+    } catch (err) {
+        console.error("Error al obtener estadísticas:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Error al obtener estadísticas",
+            error: err.message
         });
     }
 };
+exports.checkEmail = async (req, res) => {
+    try {
+        const { email } = req.query; // Obtener el email desde los query parameters
+        console.log("Email recibido:", email);
 
-module.exports = adminController;
+        // Buscar un usuario con ese email en la base de datos
+        const existingUser = await User.findOne({ where: { email } });
+
+        if (existingUser) {
+            console.log("El correo ya está registrado");
+            return res.json({ exists: true });
+        } else {
+            console.log("El correo no está registrado");
+            return res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error("Error al buscar usuario:", error);
+        return res.status(500).json({ success: false, message: "Error en el servidor" });
+    }
+};
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener usuarios", error });
+    }
+};
+
+// Obtener usuario por ID
+exports.getUserById = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener usuario", error });
+    }
+};
+
+// Crear usuario (cliente)
+exports.createUser = async (req, res) => {
+    try {
+        const newUser = await User.create(req.body);
+        res.status(201).json(newUser);
+    } catch (error) {
+        res.status(500).json({ message: "Error al crear usuario", error });
+    }
+};
+
+// Crear usuario por administrador
+exports.createUserByAdmin = async (req, res) => {
+    try {
+        const newUser = await User.create(req.body);
+        res.status(201).json(newUser);
+    } catch (error) {
+        res.status(500).json({ message: "Error al crear usuario por admin", error });
+    }
+};
+
+// Actualizar usuario
+exports.updateUser = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+        await user.update(req.body);
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar usuario", error });
+    }
+};
+
+// Eliminar usuario
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+        await user.destroy();
+        res.status(200).json({ message: "Usuario eliminado correctamente" });
+    } catch (error) {
+        res.status(500).json({ message: "Error al eliminar usuario", error });
+    }
+};

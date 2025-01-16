@@ -1,57 +1,59 @@
-const Species = require("../models/species.js");
+const Species = require("../models/species");
 
-const speciesController = {
-    getAllSpecies: (req, res) => {
-        Species.getAll((err, results) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json(results);
-        });
-    },
-
-    getSpeciesById: (req, res) => {
-        const { id } = req.params;
-    
-        Species.getById(id, (err, result) => {
-            if (err) {
-                return res.status(404).json({ message: "Especie no encontrada" });
-            }
-            res.json(result);
-        });
-    },
-
-    createSpecies: (req, res) => {
-        const { nombre_comercial, nombre_cientifico } = req.body;
-        if (!nombre_comercial || !nombre_cientifico) {
-            return res.status(400).json({ message: "Todos los campos son requeridos" });
-        }
-        Species.create(req.body, (err, result) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.status(201).json({ message: "Especie creada correctamente", id: result.insertId });
-        });
-    },
-
-    updateSpecies: (req, res) => {
-        const { id } = req.params;
-        const { nombre_comercial, nombre_cientifico } = req.body;
-        if (!nombre_comercial || !nombre_cientifico) {
-            return res.status(400).json({ message: "Todos los campos son requeridos" });
-        }
-        Species.update(id, req.body, (err, result) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json({ message: "Especie actualizada correctamente" });
-        });
-    },
-
-    deleteSpecies: (req, res) => {
-        const { id } = req.params;
-    
-        Species.delete(id, (err, result) => {
-            if (err) {
-                return res.status(404).json({ message: err.message || "Error al eliminar la especie" });
-            }
-            return res.json(result);
-        });
+// Obtener todas las especies
+exports.getAllSpecies = async (req, res) => {
+    try {
+        const species = await Species.findAll();
+        res.status(200).json(species);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener especies", error });
     }
 };
 
-module.exports = speciesController;
+// Obtener especie por ID
+exports.getSpeciesById = async (req, res) => {
+    try {
+        const species = await Species.findByPk(req.params.id);
+        if (!species) return res.status(404).json({ message: "Especie no encontrada" });
+
+        res.status(200).json(species);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener la especie", error });
+    }
+};
+
+// Crear una nueva especie
+exports.createSpecies = async (req, res) => {
+    try {
+        const newSpecies = await Species.create(req.body);
+        res.status(201).json(newSpecies);
+    } catch (error) {
+        res.status(500).json({ message: "Error al crear la especie", error });
+    }
+};
+
+// Actualizar una especie
+exports.updateSpecies = async (req, res) => {
+    try {
+        const species = await Species.findByPk(req.params.id);
+        if (!species) return res.status(404).json({ message: "Especie no encontrada" });
+
+        await species.update(req.body);
+        res.status(200).json(species);
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar la especie", error });
+    }
+};
+
+// Eliminar una especie
+exports.deleteSpecies = async (req, res) => {
+    try {
+        const species = await Species.findByPk(req.params.id);
+        if (!species) return res.status(404).json({ message: "Especie no encontrada" });
+
+        await species.destroy();
+        res.status(200).json({ message: "Especie eliminada correctamente" });
+    } catch (error) {
+        res.status(500).json({ message: "Error al eliminar la especie", error });
+    }
+};
