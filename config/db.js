@@ -1,20 +1,15 @@
-const mysql = require("mysql2");
+const { Sequelize } = require("sequelize");
 
-// Config connection to MySQL
-const db = mysql.createConnection({
+// Adding sequalize instance
+const sequelize = new Sequelize("mytreesjs", "root", "", {
     host: "localhost",
-    user: "root",
-    password: "", // Change this to your MySQL password
-    database: "mytreesjs",
+    dialect: "mysql",
+    logging: false, // Opcional logs
 });
 
-// Connect to MySQL
-db.connect((err) => {
-    if (err) {
-        console.error("❌ Error de conexión a la base de datos:", err);
-    } else {
-        console.log("✅ Conectado a MySQL con éxito");
-    }
-});
+// Test connection
+sequelize.authenticate()
+    .then(() => console.log("✅ Conectado a MySQL con Sequelize"))
+    .catch(err => console.error("❌ Error de conexión a MySQL:", err));
 
-module.exports = db;
+module.exports = sequelize;
