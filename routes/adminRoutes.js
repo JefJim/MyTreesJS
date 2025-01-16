@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../public/js/auth");
 const adminController = require("../controllers/adminController");
 const speciesController = require("../controllers/speciesController");
-const usersController = require("../controllers/clientController");
+
 
 
 // Only admin users can access this route
@@ -21,14 +21,19 @@ router.post("/create", speciesController.createSpecies);
 router.get("/species/list", speciesController.getAllSpecies);
 router.get("/get/:id", speciesController.getSpeciesById);  
 
-//routes for users
+//routes for control users/clients
 router.get("/users/get/:id", adminController.getUserById);
-router.get("/users/check-email", adminController.checkEmail);
-
 router.get("/users/list", adminController.getAllUsers);
-router.post("/users/create", adminController.createUser);
+router.post("/users/create", adminController.createUserByAdmin);
 router.put("/users/edit/:id", adminController.updateUser);
 router.delete("/users/delete/:id", adminController.deleteUser);
+
+//routes for trees
+router.get("/trees/list", adminController.getAllTrees);
+
+router.delete("/trees/delete/:id", adminController.deleteTree);
+
+
 
 
 
