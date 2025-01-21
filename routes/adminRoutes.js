@@ -3,8 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../public/js/auth");
 const adminController = require("../controllers/adminController");
 const speciesController = require("../controllers/speciesController");
-
-
+const upload = require('../controllers/multerController');
 
 // Only admin users can access this route
 router.get("/admin", authMiddleware(1), (req, res) => {
@@ -30,6 +29,16 @@ router.delete("/users/delete/:id", adminController.deleteUser);
 
 //routes for trees
 router.get("/trees/list", adminController.getAllTrees);
+router.get("/trees/get/:id", adminController.getTreeById);
+router.post("/trees/create", adminController.createTrees);
+//testing multer
+router.post("/trees/upload", upload.single("image"), (req, res) => {
+    
+    
+});
+    
+
+router.put("/trees/edit/:id", adminController.updateTree);
 
 router.delete("/trees/delete/:id", adminController.deleteTree);
 
