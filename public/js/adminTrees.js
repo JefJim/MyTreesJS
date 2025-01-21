@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td class="px-6 py-4">${tree.status}</td>
                     <td class="px-6 py-4">${tree.price}</td>
                     <td class="px-6 py-4">
-                        ${tree.foto ? `<img src="/uploads/trees/${tree.foto}" alt="Foto" class="h-16 w-16 object-cover rounded">` : ''}
+                        ${tree.imageurl ? `<img src="../uploads/${tree.imageurl}" alt="Foto" class="h-16 w-16 object-cover rounded">` : ''}
                     </td>
                     <td class="px-6 py-4 space-x-2">
-                        <a href="/admin/arboles/editar/${tree.id}" class="text-blue-600 hover:text-blue-800">Editar</a>
-                        <a href="#" onclick="deleteTree(${tree.id})" class="text-red-600 hover:text-red-800">Eliminar</a>
-                        <a href="/admin/arboles/${tree.id}/historial" class="text-green-600 hover:text-green-800">Ver Historial</a>
+                        <button onclick="editTrees(${tree.id})" class="text-blue-600 hover:text-blue-800">Editar</button>
+                        <button onclick="deleteTree(${tree.id})" class="text-red-600 hover:text-blue-800">Eliminar</button>
+                        <button onclick="treeHistory(${tree.id})" class="text-green-600 hover:text-blue-800">Historial</button>
                     </td>
                 `;
                 treeTableBody.appendChild(row);
@@ -33,7 +33,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error en la solicitud:", error);
     }
 });
-
+function editTrees(treeId) {
+    // Redirect to speciesForm.html with the species ID as a query parameter
+    window.location.href = `adminTreesForm.html?id=${treeId}`;
+}
+function treeHistory(treeId) {
+    // Redirect to speciesForm.html with the species ID as a query parameter
+    window.location.href = `adminTreesHistoryForm.html?id=${treeId}`;
+}
 async function deleteTree(treeId) {
     const confirmDelete = confirm("¿Estás seguro de eliminar este árbol?");
     if (confirmDelete) {
