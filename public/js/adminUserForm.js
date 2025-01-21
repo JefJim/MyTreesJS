@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             email: document.getElementById("email").value,
             address: document.getElementById("direccion").value,
             country_id: parseInt(document.getElementById("country").value),
-
             rol_id: parseInt(document.getElementById("rol").value),
             password: document.getElementById("contrasena").value,
         };
@@ -99,6 +98,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         }
 
-    });
+    });z
 });
 
