@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-green-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lista de Árboles</title>
+</head>
+
+<body class="h-full">
+    <div class="min-h-full">
+        <div class="flex justify-between items-align bg-green-900 p-3 text-white">
+            <h1 class="text-xl font-bold">Lista de Árboles</h1>
+            <a href="adminTreesForm.html" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm">Agregar Árbol</a>
+            <a href="adminDashboard.html" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm text-white">Atrás</a>
+        </div>
+        <div class="relative overflow-x-auto mx-auto mt-4 max-w-7xl bg-white p-4 rounded-lg shadow-lg">
+            <table class="w-full text-sm text-left text-green-900" id="treeTable">
+                <thead class="text-xs text-green-700 uppercase bg-green-50">
+                    <tr>
+                        <th class="px-6 py-3">ID</th>
+                        <th class="px-6 py-3">Especie</th>
+                        <th class="px-6 py-3">Ubicación</th>
+                        <th class="px-6 py-3">Estado</th>
+                        <th class="px-6 py-3">Precio</th>
+                        <th class="px-6 py-3">Foto</th>
+                        <th class="px-6 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="treeBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../../js/adminTrees.js"> </script>
+</body>
+
+</html>

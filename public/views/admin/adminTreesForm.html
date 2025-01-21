@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-green-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Agregar Árbol</title>
+</head>
+
+<body class="h-full">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="max-w-lg w-full bg-white p-6 rounded-lg shadow-lg">
+            <h1 id="formTitle" class="text-2xl font-bold text-center text-green-900">Agregar Árbol</h1>
+            <form id="treeForm" enctype="multipart/form-data" class="space-y-6 mt-4" method="post">
+                <input type="hidden" id="treeId">
+                <div>
+                    <label for="especie_id" class="block text-sm font-medium text-green-900">Especie:</label>
+                    <select id="especie_id" name="especie_id" required
+                        class="block w-full rounded-md border-0 py-2 text-green-900 shadow-sm ring-1 ring-green-300 focus:ring-2 focus:ring-green-600">
+                        <!-- Las opciones se cargarán dinámicamente -->
+                    </select>
+                </div>
+                <div>
+                    <label for="especie_name" class="block text-sm font-medium text-green-900">Nombre:</label>
+                    <input id="especie_name" name="especie_name" readonly
+                        class="block w-full rounded-md border-0 py-2 text-green-900 shadow-sm ring-1 ring-green-300 focus:ring-2 focus:ring-green-600">
+
+                    </input>
+                </div>
+                <div>
+                    <label for="ubicacion" class="block text-sm font-medium text-green-900">Ubicación:</label>
+                    <input type="text" id="ubicacion" name="ubicacion" required
+                        class="block w-full rounded-md border-0 py-2 text-green-900 shadow-sm ring-1 ring-green-300 focus:ring-2 focus:ring-green-600">
+                </div>
+                <div>
+                    <label for="estado" class="block text-sm font-medium text-green-900">Estado:</label>
+                    <select id="estado" name="estado" required
+                        class="block w-full rounded-md border-0 py-2 text-green-900 shadow-sm ring-1 ring-green-300 focus:ring-2 focus:ring-green-600">
+                        <option value="available">Disponible</option>
+                        <option value="sold">Vendido</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="precio" class="block text-sm font-medium text-green-900">Precio:</label>
+                    <input type="number" id="precio" name="precio" step="0.01" required
+                        class="block w-full rounded-md border-0 py-2 text-green-900 shadow-sm ring-1 ring-green-300 focus:ring-2 focus:ring-green-600">
+                </div>
+                <div>
+                    <label for="tamano" class="block text-sm font-medium text-green-900">Tamaño:</label>
+                    <input id="tamano" name="tamano" required
+                        class="block w-full rounded-md border-0 py-2 text-green-900 shadow-sm ring-1 ring-green-300 focus:ring-2 focus:ring-green-600">
+                </div>
+                <input type="file" id="image" name="image" accept="image/jpg, image/jpeg, image/png">
+                <div class="flex justify-end space-x-2">
+
+                    <button type="submitB" name="accion" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm text-white" formaction="admin/trees/upload">Guardar imagen</button>
+                    <button id="submit" type="submit"
+                        class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm text-white">Guardar árbol</button>
+                    <a href="adminTreesView.html"
+                        class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded text-sm text-white">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    <script src="../../js/adminTreesForm.js"></script>
+</body>
+
+</html>
