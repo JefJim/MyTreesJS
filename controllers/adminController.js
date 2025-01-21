@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const Treereg = require("../models/treereg");
 const bcrypt = require("bcryptjs");
-
 // Obtener todos los usuarios
 exports.getStatsAdminDashboard = async (req, res) => {
     try {
@@ -124,6 +123,7 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
+
 //get all trees
 exports.getAllTrees = async (req, res) => {
     try {
@@ -131,6 +131,53 @@ exports.getAllTrees = async (req, res) => {
         res.status(200).json(trees);
     } catch (error) {
         res.status(500).json({ message: "Error al obtener árboles", error });
+    }
+};
+//get tree by id
+exports.getTreeById = async (req, res) => {
+    try {
+        const tree = await Treereg.findByPk(req.params.id);
+        if (!tree) return res.status(404).json({ message: "Árbol no encontrado" });
+
+        res.status(200).json(tree);
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener el árbol", error });
+    }
+};
+//create tree
+exports.createTrees = async (req, res) => {
+    try {
+        const { tree_name, species, price, size, ubication, status } = req.body;
+        const imageurl = req.body ? `${req.body.imageurl}` : null;
+        
+        console.log(req.body.imageurl);
+        console.log("tree: ",imageurl);
+        const newTree = await Treereg.create({
+            tree_name,
+            species,
+            price,
+            size,
+            ubication,
+            status,
+            imageurl,
+            date: new Date()
+        });
+        
+        res.status(201).json(newTree);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al crear el árbol', error });
+    }
+};
+//update tree
+exports.updateTree = async (req, res) => {
+    try {
+        const tree = await Treereg.findByPk(req.params.id);
+        if (!tree) return res.status(404).json({ message: "Árbol no encontrado" });
+
+        await tree.update(req.body);
+        res.status(201).json(tree);
+    } catch (error) {
+        res.status(500).json({ message: "Error al actualizar el árbol", error });
     }
 };
 

@@ -16,11 +16,11 @@ const TreeReg = sequelize.define("treereg", {
         allowNull: false
     },
     price: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
     size: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     ubication: {
@@ -28,13 +28,17 @@ const TreeReg = sequelize.define("treereg", {
         allowNull: false
     },
     status: {
-        type: DataTypes.ENUM("available", "sold"),
+        type: DataTypes.STRING("available", "sold"),
         allowNull: false,
         defaultValue: "available"
     },
     
     imageurl: {
         type: DataTypes.STRING, // URL de la imagen
+        allowNull: true
+    },
+    date: {
+        type: DataTypes.DATE, // date
         allowNull: true
     }
 }, {
